@@ -24,10 +24,11 @@ i.Nav {
 .Nav-brand-logo {
     display: block;
     background-position: -176px 0px;
-    background-image: url(../../sprite.png);
+    background-image: url(../../sprite2.png);
     background-size: 405px 379px;
     background-repeat: no-repeat;
-    height: 35px;
+    /* height: 35px; */
+    height: 55px;
     width: 176px;
     text-indent: -1000%;
 }

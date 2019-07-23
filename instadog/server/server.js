@@ -1,9 +1,13 @@
 // server.server.js
+
 // Imports
 let express = require('express');
 let graphqlHTTP = require('express-graphql');
 let { buildSchema } = require('graphql');
 let cors = require('cors');
+let Pusher = require('pusher');
+let bodyParser = require('body-parser');
+let Multipart = require('connect-multiparty');
 
 // schema (GraphQL Schema language)
 let schema = buildSchema(`
@@ -52,7 +56,7 @@ let postslist = {
         b: {
             id: 'b',
             user: userslist['a'],
-            caption: 'I am King of the Mountain!',
+            caption: 'My Brother thinks he is King of the Mountain!',
             image: 'https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-9/10343670_10152501122496948_3410647605424668062_n.jpg?_nc_cat=102&_nc_oc=AQm3k6Mz4cYRGuEpK0EwRBK6jzYayuXAqKK0hICnldzQLoZF25VN1-g-JhXQmPdpCxw&_nc_ht=scontent-sea1-1.xx&oh=6ef01d430bc8559aa94f556753fc249d&oe=5DBF3273'
         },
         c: {
@@ -83,6 +87,15 @@ let root = {
     }
 };
 
+// Configure Pusher Client
+let pusher = new Pusher ({
+    appId: 'PUSHER_APP_ID',
+    key: 'PUSHER_APP_KEY',
+    secret: 'PUSHER_APP_SECRET',
+    cluster: 'PUSHER_CLUSTER',
+    encrypted: true
+});
+
 // create express app
 // http://localhost:4000/graphql
 let app = express();
@@ -95,5 +108,29 @@ app.use(
         graphiql: true
     })
 );
+
+// add Middleware
+let multipartMiddleware = new Multipart();
+
+// trigger add a new post
+app.post('/newpost', multipartMiddleware, (req, res) => {
+    // create sample post
+    let post = {
+        user: {
+            nickname: req.body.name,
+            avatar: req.body.avatar
+        },
+        image: req.body.image,
+        caption: req.body.caption
+    }
+
+    // trigger pusher event
+    pusher.trigger('posts-channel', 'new-post', {
+        post
+    });
+
+    return res.json({status: 'Post created'});
+});
+
 // set application port
 app.listen(4000);

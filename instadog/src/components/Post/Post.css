@@ -39,10 +39,12 @@
 .Post-image img {
     display: block;
     width: 100%;
+    /* max-height: 900px; */
 }
 
 .Post-caption {
     padding: 16px 16px;
+    text-align: left;
 }
 
 .Post-caption strong {

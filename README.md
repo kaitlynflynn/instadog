@@ -9,7 +9,7 @@ My version of a simple Instagram clone, but for dogs!
 * [CSS](https://www.w3schools.com/css/)
 * [GraphQL](https://graphql.org/) 
 
-## Running the Application
+## Running the Application in Development Mode
 Step 1: Clone the Repo
 
 Step 2: Install all dependencies on the Frontend. Make sure you are in the root `instadog` folder
@@ -27,3 +27,6 @@ Step 5: Now we can run the frontend. Make sure you are in the root `instadog` fo
 `npm start`
 
 Now  you should see the React App opened in your browser!
+
+## Author
+* [Kaitlyn Flynn](https://kaitlynflynn.com/)
